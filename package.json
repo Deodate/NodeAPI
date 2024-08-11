@@ -1,0 +1,30 @@
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "description": "For fun",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deodate/NodeAPI.git"
+  },
+  "keywords": [
+    "Node"
+  ],
+  "author": "Deodate",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deodate/NodeAPI/issues"
+  },
+  "homepage": "https://github.com/Deodate/NodeAPI#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0"
+  }
+}
