@@ -10,7 +10,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'citizen_db',
     password: 'postgres',
-    port: 5432, // port should be a number, not a string
+    port: 5432,
 });
 
 // Middleware to parse form data
