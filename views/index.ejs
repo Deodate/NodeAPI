@@ -14,13 +14,16 @@
       .toast-body {
         color: #fff; /* Ensure text is readable */
       }
+      .table-container {
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
       <div class="row">
-        <div class="col-md-12"> <!-- Adjusted column size for a wider form -->
-            <h1 class="text-center mb-4 fs-4">TO DO</h1>
+        <div class="col-md-12">
+          <h1 class="text-center mb-4 fs-4">TO DO</h1>
           <form id="todoForm" action="/addTodo" method="POST" class="bg-light p-4 rounded shadow">
             <div class="mb-3 row">
               <div class="col-sm-4">
@@ -48,6 +51,23 @@
       </div>
     </div>
 
+    <!-- Display Table -->
+    <div class="container table-container">
+      <h2 class="text-center mb-4">Records</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Type</th>
+          </tr>
+        </thead>
+        <tbody id="recordsTableBody">
+          <!-- Records will be inserted here dynamically -->
+        </tbody>
+      </table>
+    </div>
+
     <!-- Toast Component -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
       <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -71,6 +91,32 @@
         toastInstance.show();
       }
 
+      // Function to update the table with new records
+      function updateTable(records) {
+        const tableBody = document.getElementById('recordsTableBody');
+        tableBody.innerHTML = ''; // Clear existing rows
+        records.forEach(record => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.pro_name}</td>
+            <td>${record.pro_type}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Fetch records when the page loads
+      window.addEventListener('load', async () => {
+        try {
+          const response = await fetch('/getRecords');
+          const records = await response.json();
+          updateTable(records);
+        } catch (error) {
+          console.error('Error fetching records:', error);
+        }
+      });
+
       // Add an event listener for the form submission
       document.getElementById('todoForm').addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent the default form submission
@@ -88,6 +134,11 @@
           if (response.ok) {
             showToast('Data saved successfully!');
             event.target.reset(); // Optionally, reset the form fields
+            
+            // Fetch updated records from the server
+            const recordsResponse = await fetch('/getRecords');
+            const records = await recordsResponse.json();
+            updateTable(records); // Update the table with the new records
           } else {
             showToast('Failed to save data.');
           }

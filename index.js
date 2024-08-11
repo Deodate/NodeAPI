@@ -49,6 +49,39 @@ app.post('/addTodo', async (req, res) => {
     }
 });
 
+// FETCH RECORDS ENDPOINT
+app.get('/getRecords', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM product');
+        res.json(result.rows); // Send the rows as JSON response
+    } catch (err) {
+        console.error('Error in fetching records:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// FETCH RECORDS ENDPOINT
+app.get('/getRecords', async (req, res) => {
+    const search = req.query.search || ''; // Get search query from request
+    try {
+        const result = await pool.query(
+            'SELECT * FROM product WHERE pro_name ILIKE $1 OR pro_type ILIKE $1',
+            [`%${search}%`]
+        );
+        
+        if (result.rows.length === 0) {
+            // Send a specific message when no records are found
+            res.json({ message: 'No records found', records: [] });
+        } else {
+            res.json({ message: '', records: result.rows }); // Send records as JSON response
+        }
+    } catch (err) {
+        console.error('Error in fetching records:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
