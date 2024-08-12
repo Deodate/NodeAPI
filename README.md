@@ -9,3 +9,7 @@
 
 [3]. DISPLAY RECORDS FROM DATABASE
 ![image](https://github.com/user-attachments/assets/3d6fc94d-7d5e-452b-bf1c-14eec4fa16cd)
+
+[4]. App Dashboard
+![image](https://github.com/user-attachments/assets/5cc20b81-148a-4d95-9c73-511c26709528)
+
